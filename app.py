@@ -487,6 +487,11 @@ def saved_drinks():
     print("All saved cocktails:", all_saved_cocktails)
     return render_template('SavedDrinks.html', saved_cocktails=all_saved_cocktails)
 
+@app.route('/unsave/<string:cocktail_id>', methods=['POST'])
+def unsave_cocktail(cocktail_id):
+    # Remove the cocktail from the saved cocktails list
+    saved_cocktails.delete_one({"cocktail_data._id": ObjectId(cocktail_id)})
+    return redirect('/saved-drinks')
 
 
 

@@ -76,8 +76,12 @@
             <img src="{{ url_for('static', filename='img/' + cocktail.cocktail_data.image) }}" alt="{{ cocktail.cocktail_data.name }}"  />
             <p>{{ cocktail.cocktail_data.name }}</p>
         </a>
+        <form action="/unsave/{{ cocktail.cocktail_data._id }}" method="POST">
+            <input type="submit" value="Unsave" />
+        </form>
     </div>
-    {% endfor %}
+{% endfor %}
+
 
 
 
