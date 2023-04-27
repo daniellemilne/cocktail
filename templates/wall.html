@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Your Wall</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl7/1L_dstPt3+S/j6f59g6vC7J6UGDfF8Y2blKjQ/" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/wall.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar_container">
+            <a href="/" id="navbar_logo">Mixology 101
+            <i class="fas fa-glass-cheers"></i> </a>
+           
+            <div id="user-profile" class="user-profile" data-profile-url="{{ url_for('profile') }}">
+
+                <img src="{{ url_for('static', filename='img/cocktails.jpg') }}" alt="Profile picture" id="profile-picture" class="profile-picture" />
+                <span id="user-name" class="user-name">John Doe</span>
+            </div>
+            
+            <div class="navbar_toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <ul class="navbar_menu">
+                <li class="navbar_item">
+                    <a href="/"> Home </a>
+                </li>
+                <li class="navbar_item">
+                    <a href="/top10">Top 10 Popular Cocktails</a>
+                </li>                
+                <li class="navbar_item">
+                    <a href="/Learn" > Learn More About Our Cocktails </a>
+                </li>
+                <li class="navbar_item">
+                    <a href="/saved-drinks" > Saved Cocktails </a>
+                </li>
+                <li><a href="{{ url_for('login') }}">Log In</a></li>
+                <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+                <li class="navbar_item">
+                    <a href="/wall"> Your Wall </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <h2 style="text-align: center;">Community Wall</h2>
+    <h3 style="text-align: center;">Show Us What You Have Created</h3>
+    <form action="{{ url_for('upload_cocktail') }}" method="POST" enctype="multipart/form-data">
+        <label for="name">Name Of The Cocktail Created:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="image">Image Of The Cocktail Created:</label>
+        <input type="file" id="image" name="image" accept="image/*" required>
+        <label for="description">Tell Us How You Created The Cocktail:</label>
+        <textarea id="description" name="description" required></textarea>
+        <button type="submit">Submit</button>
+    </form>  
+    {% for cocktail in cocktails %}
+    <div class="cocktail">
+    <h3>{{ cocktail.name }}</h3>
+    <img src="{{ cocktail.image }}" alt="{{ cocktail.name }}">
+    
+    <!-- to display the description -->
+    <p>{{ cocktail.description }}</p>
+    
+    <!-- Wrap the like and dislike buttons in a div with the class "btn-group" -->
+    <div class="btn-group">
+        <form action="{{ url_for('like_cocktail', cocktail_id=cocktail.id) }}" method="POST" class="like-dislike-form">
+            <button type="submit" class="btn btn-primary">Like ({{ cocktail.likes }})</button>
+        </form>
+        <form action="{{ url_for('dislike_cocktail', cocktail_id=cocktail.id) }}" method="POST" class="like-dislike-form">
+            <button type="submit" class="btn btn-primary">Dislike ({{ cocktail.dislikes }})</button>
+        </form>
+    </div>
+
+    <form action="{{ url_for('comment_cocktail', cocktail_id=cocktail.id) }}" method="POST">
+        <label for="comment">Comment:</label>
+        <input type="text" id="comment" name="comment" required>
+        <button type="submit">Submit</button>
+    
+        <div class="comments">
+            {% for comment in cocktail.comments %}
+            <p>{{ comment.content }} - by {{ comment.user_id }}</p>
+            {% endfor %}
+        </div>
+    </form>
+    </div>
+    {% endfor %}
+
+
+       
+        <script>
+            // Simulated user data (replace with actual user data from your server)
+            window.loggedInUser = {
+              isLoggedIn: true,
+              name: 'Jane Doe',
+              profile_picture_url: "{{ url_for('static', filename='img/cocktails.jpeg') }}"
+            };
+        </script>
+
+        <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/search.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+
+     <!--- Footer Section -->
+
+    <div class="footer_container">
+        <div class="footer_links">
+            <div class="footer_link-wrapper">
+                <div class="footer_link-items">
+                    <h2>About Us</h2>
+                    <a href="/">How it works</a>
+                    <a href="/">Testimonals</a>
+                    <a href="/">Careers</a>
+                    <a href="/">Investments</a>
+                    <a href="/">Terms of Service</a>
+                </div>
+                <div class="footer_link-items">
+                    <h2>Contact Us</h2>
+                    <a href="/contact">Contact</a>
+                    <a href="/contact">Support</a>
+                </div>
+            </div>
+            <div class="footer_link-wrapper">
+                <div class="footer_link-items">
+                    <h2>Videos</h2>
+                    <a href="/submitvideo">Submit Videos Here</a>
+                    <a href="/">Our Ambassadors</a>
+                    <a href="/">Influencers</a>
+                </div>
+                <div class="footer_link-items">
+                    <h2>Social Media</h2>
+                    <a href="/">Instagram</a>
+                    <a href="/">Youtube</a>
+                    <a href="/">Facebook</a>
+                    <a href="/">Twitter</a>
+                </div>
+            </div>
+        </div>
+        <div class="social_media">
+            <div class="social_media-wrap">
+                <div class="footer_logo">
+                    <a href="/" id="footer_logo">Mixlogy 101<i class="fas
+                        fa-glass-cheers"></i></a>
+                </div>
+                <p class="website_rights">@ Mixlogy 101 2022. All rights 
+                reserved</p>
+                <div class="social_icons">
+                <a href="/" class="social_icons-link"
+                target="_blank"> 
+                <i class="fab fa-instagram"></i>
+                </a>
+                <a href="/" class="social_icons-link"
+                target="_blank"> 
+                <i class="fab fa-youtube"></i>
+                </a>
+                <a href="/" class="social_icons-link"
+                target="_blank"> 
+                <i class="fab fa-facebook"></i>
+                </a>
+                <a href="/" class="social_icons-link"
+                target="_blank"> 
+                <i class="fab fa-twitter"></i>
+                </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

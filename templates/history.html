@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/history.css') }}">
+    <title>Cocktail History</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar_container">
+            <a href="/" id="navbar_logo">Mixology 101
+            <i class="fas fa-glass-cheers"></i> </a>
+           
+            <div id="user-profile" class="user-profile" data-profile-url="{{ url_for('profile') }}">
+
+                <img src="{{ url_for('static', filename='img/cocktails.jpg') }}" alt="Profile picture" id="profile-picture" class="profile-picture" />
+                <span id="user-name" class="user-name">John Doe</span>
+            </div>
+            
+            <div class="navbar_toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <ul class="navbar_menu">
+                <li class="navbar_item">
+                    <a href="/"> Home </a>
+                </li>
+                <li class="navbar_item">
+                    <a href="/top10">Top 10 Popular Cocktails</a>
+                </li>                
+                <li class="navbar_item">
+                    <a href="/Learn" > Learn More About Our Cocktails </a>
+                </li>
+                <li class="navbar_item">
+                    <a href="/saved-drinks" > Saved Cocktails </a>
+                </li>
+                <li><a href="{{ url_for('login') }}">Log In</a></li>
+                <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+                <li class="navbar_item">
+                    <a href="/wall"> Your Wall </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main">
+        <div class="main_container">
+            <div class="main_content">
+                <h1>Scroll Down To </h1>
+                <h2>Read The Fun Facts</h2>
+            </div>
+            <div class="main-img-container">
+                <img src="{{ url_for('static', filename='img/undraw_beer.svg') }}" alt="Your image description" class="responsive-image">
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Cocktail Facts</h1>
+        <!-- Add your content here -->
+        <div class="fun-fact">
+            <h3>Fact 1</h3>
+            <p>The word "cocktail" is believed to have originated from various sources, including the practice of using a rooster's tail (or "cock tail") as a garnish, or the French word "coquetel" (an eggcup used as a drinking vessel).</p>
+        </div>
+        <div class="fun-fact">
+            <h3>Fact 2</h3>
+            <p>During Prohibition in the United States (1920-1933), speakeasies and underground bars flourished, leading to the invention of many classic cocktails that are still popular today.</p>
+        </div>
+        <div class="fun-fact">
+            <h3>Fact 3</h3>
+            <p>The Martini, one of the most iconic cocktails, has evolved significantly over the years. The original recipe called for gin, sweet vermouth, orange bitters, and a lemon twist, while modern versions typically use dry vermouth and may include vodka instead of gin.</p>
+        </div>
+        <!-- Add more content as needed -->
+        <br>
+        
+    </div>
+
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/search.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+</body>
+</html>

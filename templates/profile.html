@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>User Profile</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>Profile Picture</h2>
+            <img src="{{ url_for('static', filename='img/cocktails.jpg') }}" alt="Profile picture" id="profile-picture" class="profile-picture" />
+            <form id="upload-form">
+                <input type="file" id="profile-picture-input" accept="image/*">
+                <button type="submit">Upload</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Profile Information</h2>
+            <form id="edit-profile-form">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="John Doe" required>
+                <br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="john.doe@example.com" required>
+                <br>
+                <button type="submit">Save Changes</button>
+            </form>
+        </section>
+    </main>
+    <script>
+        // Simulated user data (replace with actual user data from your server)
+        window.loggedInUser = {
+          isLoggedIn: true,
+          name: 'Jane Doe',
+          profile_picture_url: "{{ url_for('static', filename='img/cocktails.jpeg') }}"
+        };
+    </script>
+    
+      
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+    
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Mixology 101</title>
+    <meta name="description" content="Discover your perfect cocktail with our innovative generator! Explore thousands of unique, personalized drink recipes and elevate your mixology game. Try it now!">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" 
+    integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" 
+    crossorigin="anonymous"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar_container">
+            <a href="/" id="navbar_logo">Mixology 101
+            <i class="fas fa-glass-cheers"></i> </a>
+           
+            <div id="user-profile" class="user-profile" data-profile-url="{{ url_for('profile') }}">
+
+                <img src="{{ url_for('static', filename='img/cocktails.jpg') }}" alt="Profile picture" id="profile-picture" class="profile-picture" />
+                <span id="user-name" class="user-name">John Doe</span>
+            </div>
+            
+            <div class="navbar_toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <ul class="navbar_menu">
+                <li class="navbar_item">
+                    <a href="/"> Home </a>
+                </li>
+                <li class="navbar_item">
+                    <a href="/top10">Top 10 Popular Cocktails</a>
+                </li>                
+                <li class="navbar_item">
+                    <a href="/Learn" > Learn More About Our Cocktails </a>
+                </li>
+                <li class="navbar_item">
+                    <a href="/saved-drinks" > Saved Cocktails </a>
+                </li>
+                <li><a href="{{ url_for('login') }}">Log In</a></li>
+                <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+                <li class="navbar_item">
+                    <a href="/wall"> Your Wall </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="main">
+        <div class="main_container">
+            <div class="main_content">
+                <h1>Welcome</h1>
+                <h2>User</h2>
+            <button class="main-btn"><a href="/top10"> Top 10 Popular Cocktails</a></button>
+            <button class="main-btn"><a href="/mocktails"> Top 10 Popular Mocktails Cocktails</a></button>
+            </div>
+            <div class="main-img-container">
+                <img src="{{ url_for('static', filename='img/undraw_beer.svg') }}" alt="Your image description" class="responsive-image">
+            </div>
+        </div>
+    </div>
+    
+    <!-- Generator -->
+
+    <h1>Cocktail Generator</h1>
+    
+
+    <form action="/searchgen" method="GET">
+        <input type="text" name="query" placeholder="Search for a cocktail...">
+        <input type="submit" value="Search" class="custom-button">
+    </form>
+    
+
+      
+    <ul id="recipe-list">
+        {% for recipe in recipes %}
+          <li data-default-order="{{ loop.index0 }}">
+            <h3>
+                <a href="{{ url_for('cocktail', cocktail_id=recipe._id) }}">
+                {{ recipe.name }}
+              </a>
+            </h3>
+            <!-- The rest of the recipe list item code -->
+          </li>
+        {% endfor %}
+    </ul>
+      
+    
+      <form id="search-form">
+        <input type="text" id="ingredient" placeholder="Enter an ingredient" required />
+        <button type="submit">Find Cocktails</button>
+    </form>
+    
+    <div class="sort-container" style="display: none;">
+        <label for="sort-options">Sort by:</label>
+        <select id="sort-options">
+            <option value="default">Default</option>
+            <option value="a-z">A-Z</option>
+            <option value="z-a">Z-A</option>
+            <option value="recent">Recently uploaded</option>
+            <option value="most">Most ingredients needed</option>
+            <option value="least">Least ingredients needed</option>
+        </select>
+    </div>
+    
+    <div id="search-results">
+        {% for cocktail in cocktails %}
+        <pre>{{ cocktail | tojson | safe }}</pre>
+            <div class="cocktail" data-id="{{ cocktail._id }}">
+                <a href="{{ url_for('cocktail', cocktail_id=cocktail._id) }}">
+    
+                    <h3>{{ cocktail.name }}</h3>
+                    <img src="{{ url_for('static', filename='img/' + cocktail.image) }}" alt="{{ cocktail.name }}" class="cocktail-result-image">
+                </a>
+                <p>{{ cocktail.description }}</p>
+                <ul>
+                    {% for ingredient in cocktail.ingredients %}
+                    <li>{{ ingredient }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+    
+    
+
+    <!--- Services Section -->
+    <div class="services">
+        <h1>Tips and tricks everyone should know</h1>
+        <div class="services_container">
+            <div class="services_card">
+                <img class="resize-image" src="{{ url_for('static', filename='img/learn.jpg') }}" alt="Your image description">
+                <h2>Learn more here</h2>
+                <p>Our most asked about cocktails</p>
+                <a href="/Learn" >
+                    <button>Explore now!</button>
+                </a>
+                
+            </div>
+            <div class="services_card">
+                <img class="resize-image" src="{{ url_for('static', filename='img/quiz.jpg') }}" alt="Your image description">
+                <h2>Your preferences</h2>
+                <p>Sweet Vs Sour Quiz</p>
+                <a href="/quiz">
+                    <button>Find out your preference here!</button>
+                </a>
+            </div>
+            <div class="services_card">
+                <img class="resize-image" src="{{ url_for('static', filename='img/winter_cocktails.jpeg') }}" alt="Your image description">
+                <h2>Top 8 Cocktails</h2>
+                <p>Of 2022</p>
+                <a href="/top10"></a>
+                    <button>Find out if your favourite cocktail is on our list</button>
+                </a>
+            </div>
+        </div>
+    </div><br>
+
+    
+    <!--- Footer Section -->
+
+    <div class="footer_container">
+        <div class="footer_links">
+            <div class="footer_link-wrapper">
+                <div class="footer_link-items">
+                    <h2>About Us</h2>
+                    <a href="/">How it works</a>
+                    <a href="/">Testimonals</a>
+                    <a href="/">Careers</a>
+                    <a href="/">Investments</a>
+                    <a href="/">Terms of Service</a>
+                </div>
+                <div class="footer_link-items">
+                    <h2>Contact Us</h2>
+                    <a href="/contact">Contact</a>
+                    <a href="/contact">Support</a>
+                </div>
+            </div>
+            <div class="footer_link-wrapper">
+                <div class="footer_link-items">
+                    <h2>Videos</h2>
+                    <a href="/submitvideo">Submit Videos Here</a>
+                    <a href="/">Our Ambassadors</a>
+                    <a href="/">Influencers</a>
+                </div>
+                <div class="footer_link-items">
+                    <h2>Social Media</h2>
+                    <a href="/">Instagram</a>
+                    <a href="/">Youtube</a>
+                    <a href="/">Facebook</a>
+                    <a href="/">Twitter</a>
+                </div>
+            </div>
+        </div>
+        <div class="social_media">
+            <div class="social_media-wrap">
+                <div class="footer_logo">
+                    <a href="/" id="footer_logo">Mixlogy 101<i class="fas
+                        fa-glass-cheers"></i></a>
+                </div>
+                <p class="website_rights">@ Mixlogy 101 2022. All rights 
+                reserved</p>
+                <div class="social_icons">
+                <a href="/" class="social_icons-link"
+                target="_blank"> 
+                <i class="fab fa-instagram"></i>
+                </a>
+                <a href="/" class="social_icons-link"
+                target="_blank"> 
+                <i class="fab fa-youtube"></i>
+                </a>
+                <a href="/" class="social_icons-link"
+                target="_blank"> 
+                <i class="fab fa-facebook"></i>
+                </a>
+                <a href="/" class="social_icons-link"
+                target="_blank"> 
+                <i class="fab fa-twitter"></i>
+                </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const searchForm = document.getElementById('search-form');
+        const ingredientInput = document.getElementById('ingredient');
+        const sortContainer = document.querySelector('.sort-container');
+        const sortOptions = document.getElementById('sort-options');
+        const searchResults = document.getElementById('search-results');
+    
+        function renderSearchResults(cocktails, callback) {
+            searchResults.innerHTML = '';
+            cocktails.forEach(cocktail => {
+                const result = createSearchResultElement(cocktail);
+                searchResults.appendChild(result);
+            });
+        
+            console.log('Before calling callback');
+            if (typeof callback === 'function') {
+                callback(cocktails);
+            }
+            console.log('After calling callback');
+        }
+        
+    
+        function fetchSearchResults() {
+            const ingredient = ingredientInput.value;
+            fetch(`/filter?criteria=${encodeURIComponent(ingredient)}`)
+                .then(response => response.json())
+                .then(cocktails => {
+                    console.log('Before rendering:', cocktails);
+                    renderSearchResults(cocktails, () => {
+                        sortSearchResults(sortOptions.value);
+                    });
+                    sortContainer.style.display = 'block';
+                });
+        }
+        
+        
+        
+    
+        searchForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            fetchSearchResults();
+        });
+    
+        sortOptions.addEventListener('change', (event) => {
+            const selectedOption = event.target.value;
+            console.log('Sort option selected:', selectedOption);
+            sortSearchResults(selectedOption);
+        });        
+        
+        
+        function sortSearchResults(option) {
+           
+            const cocktails = Array.from(searchResults.querySelectorAll('.cocktail'));
+            console.log('Before sorting:', cocktails);
+        
+            cocktails.sort((a, b) => {
+                const aName = a.querySelector('h3').textContent;
+                const bName = b.querySelector('h3').textContent;
+        
+                if (option === 'a-z') {
+                    return aName.localeCompare(bName);
+                } else if (option === 'z-a') {
+                    return bName.localeCompare(aName);
+                } else if (option === 'recent') {
+                    const aId = a.dataset.id;
+                    const bId = b.dataset.id;
+                    return bId.localeCompare(aId);
+                } else if (option === 'most') {
+                    const aIngredients = a.querySelectorAll('ul li').length;
+                    const bIngredients = b.querySelectorAll('ul li').length;
+                    return bIngredients - aIngredients;
+                } else if (option === 'least') {
+                    const aIngredients = a.querySelectorAll('ul li').length;
+                    const bIngredients = b.querySelectorAll('ul li').length;
+                    return aIngredients - bIngredients;
+                } else {
+                    return 0;
+                }
+            });
+        
+            console.log('After sorting:', cocktails);
+        
+            cocktails.forEach(cocktail => {
+                searchResults.appendChild(cocktail);
+            });
+        }
+        
+        
+        
+
+    </script>
+    
+    
+    
+    <script>
+        // Simulated user data (replace with actual user data from your server)
+        window.loggedInUser = {
+          isLoggedIn: true,
+          name: 'Jane Doe',
+          profile_picture_url: "{{ url_for('static', filename='img/cocktails.jpeg') }}"
+        };
+    </script>
+
+    
+
+    
+      
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/search.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+
+    
+    <!-- Age verification modal -->
+<div id="age-verification-modal" class="modal">
+    <div class="modal-content">
+      <h2>Age Verification</h2>
+      <p>Please confirm that you are 18 years or older:</p>
+      <button id="age-verification-confirm" class="confirm-button">Yes, I am 18+</button>
+      <button id="age-verification-deny" class="deny-button">No, I am under 18</button>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const ageVerificationModal = document.getElementById("age-verification-modal");
+      const ageVerificationConfirm = document.getElementById("age-verification-confirm");
+      const ageVerificationDeny = document.getElementById("age-verification-deny");
+  
+      function showModal() {
+        ageVerificationModal.style.display = "block";
+      }
+  
+      function hideModal() {
+        ageVerificationModal.style.display = "none";
+      }
+  
+      ageVerificationConfirm.addEventListener("click", function () {
+        hideModal();
+      });
+  
+      ageVerificationDeny.addEventListener("click", function () {
+        alert("You must be 18 or older to use this website.");
+        window.location.href = "https://www.google.com";
+      });
+  
+      if (!sessionStorage.getItem("age-verified")) {
+        showModal();
+      }
+  
+      ageVerificationConfirm.addEventListener("click", function () {
+        sessionStorage.setItem("age-verified", "true");
+      });
+    });
+  </script>
+  
+
+</body>
+</html>

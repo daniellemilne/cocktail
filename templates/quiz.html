@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}">
+    <title>Quiz</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar_container">
+            <a href="/" id="navbar_logo">Mixology 101
+            <i class="fas fa-glass-cheers"></i> </a>
+           
+            <div id="user-profile" class="user-profile" data-profile-url="{{ url_for('profile') }}">
+
+                <img src="{{ url_for('static', filename='img/cocktails.jpg') }}" alt="Profile picture" id="profile-picture" class="profile-picture" />
+                <span id="user-name" class="user-name">John Doe</span>
+            </div>
+            
+            <div class="navbar_toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <ul class="navbar_menu">
+                <li class="navbar_item">
+                    <a href="/"> Home </a>
+                </li>
+                <li class="navbar_item">
+                    <a href="/top10">Top 10 Popular Cocktails</a>
+                </li>                
+                <li class="navbar_item">
+                    <a href="/Learn" > Learn More About Our Cocktails </a>
+                </li>
+                <li class="navbar_item">
+                    <a href="/saved-drinks" > Saved Cocktails </a>
+                </li>
+                <li><a href="{{ url_for('login') }}">Log In</a></li>
+                <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+                <li class="navbar_item">
+                    <a href="/wall"> Your Wall </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main">
+        <div class="main_container">
+            <div class="main_content">
+                <h1>Scroll Down </h1>
+                <h2>To start The Quiz</h2>
+            </div>
+            <div class="main-img-container">
+                <img src="{{ url_for('static', filename='img/undraw_beer.svg') }}" alt="Your image description" class="responsive-image">
+            </div>
+        </div>
+    </div>
+
+    <h1>Are you a sweet or sour cocktail person?</h1>
+    <form action="/result" method="POST">
+        <div class="question">
+            <h2>Question 1: Which fruit do you prefer?</h2>
+            <label><input type="radio" name="question1" value="sweet"> Strawberry</label><br>
+            <label><input type="radio" name="question1" value="sour"> Lemon</label>
+        </div>
+
+        <div class="question">
+            <h2>Question 2: Which dessert do you prefer?</h2>
+            <label><input type="radio" name="question2" value="sweet"> Chocolate cake</label><br>
+            <label><input type="radio" name="question2" value="sour"> Lemon tart</label>
+        </div>
+
+        <div class="question">
+            <h2>Question 3: Which flavor do you prefer in a drink?</h2>
+            <label><input type="radio" name="question3" value="sweet"> Vanilla</label><br>
+            <label><input type="radio" name="question3" value="sour"> Citrus</label>
+        </div>
+
+        <div class="question">
+            <h2>Question 4: Which snack would you choose?</h2>
+            <label><input type="radio" name="question4" value="sweet"> Chocolate chip cookie</label><br>
+            <label><input type="radio" name="question4" value="sour"> Salt and vinegar chips</label>
+        </div>
+
+        <div class="question">
+            <h2>Question 5: Which scent do you prefer?</h2>
+            <label><input type="radio" name="question5" value="sweet"> Vanilla</label><br>
+            <label><input type="radio" name="question5" value="sour"> Lemon</label>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+</body>
+</html>
