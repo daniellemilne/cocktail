@@ -31,41 +31,51 @@
           </div>
           <ul class="navbar_menu">
               <li class="navbar_item">
-                  <a href="/"> Home </a>
+                  <a href="/" class="navbar_links"> Home </a>
               </li>
               <li class="navbar_item">
-                  <a href="/top10">Top 10 Popular Cocktails</a>
+                  <a href="/top10" class="navbar_links">Top 10 Popular Cocktails</a>
               </li>                
               <li class="navbar_item">
-                  <a href="/Learn" > Learn More About Our Cocktails </a>
+                  <a href="/Learn" class="navbar_links" > Learn More About Our Cocktails </a>
               </li>
               <li class="navbar_item">
-                  <a href="/saved-drinks" > Saved Cocktails </a>
+                  <a href="/saved-drinks" class="navbar_links"> Saved Cocktails </a>
               </li>
-              <li><a href="{{ url_for('login') }}">Log In</a></li>
-              <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+              <li><a href="{{ url_for('login') }}" class="navbar_links">Log In</a></li>
+              <li><a href="{{ url_for('logout') }}" class="navbar_links">Log Out</a></li>
               <li class="navbar_item">
-                  <a href="/wall"> Your Wall </a>
+                  <a href="/wall" class="navbar_links"> Community Wall </a>
               </li>
           </ul>
       </div>
   </nav>
-    <h1>Contact Us</h1>
-    <form method="POST" action="/contact">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required><br>
+ <!-- Title for the contact form -->
+<h1>Contact Us</h1>
 
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required><br>
+<!-- The form element with POST method and action attribute set to "/contact" -->
+<form method="POST" action="/contact">
+  
+  <!-- Label and input field for the user's name -->
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" required><br>
 
-      <label for="subject">Subject:</label>
-      <input type="text" id="subject" name="subject" required><br>
+  <!-- Label and input field for the user's email -->
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" required><br>
 
-      <label for="message">Message:</label>
-      <textarea id="message" name="message" rows="5" required></textarea><br>
+  <!-- Label and input field for the subject of the message -->
+  <label for="subject">Subject:</label>
+  <input type="text" id="subject" name="subject" required><br>
 
-      <input type="submit" value="Send">
-    </form>
+  <!-- Label and textarea for the user's message -->
+  <label for="message">Message:</label>
+  <textarea id="message" name="message" rows="5" required></textarea><br>
+
+  <!-- Submit button to send the form data -->
+  <input type="submit" value="Send">
+</form>
+
 
 
 

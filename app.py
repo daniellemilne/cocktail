@@ -113,9 +113,10 @@ def index():
 
 @app.route('/search', methods=['POST'])
 def search():
+    # Get the JSON data from the request and retrieve the ingredients
     data = request.get_json()
     ingredients = data.get('ingredients', []) or [data.get('ingredient', '')]
-
+    # Split the ingredients string into a list and remove any extra whitespace
     ingredients = [ingredient.strip() for ingredient in ','.join(ingredients).split(',')]
 
     print(f"Received data: {data}")
@@ -125,13 +126,13 @@ def search():
 
     # Find cocktails containing all specified ingredients
     ingredient_cocktails = list(cocktail_gen.find({"ingredients": {"$all": ingredients}}))
-
+    # Loop through the found cocktails and add them to the found_cocktails_data list
     for cocktail in ingredient_cocktails:
         print(cocktail)
         found_cocktails_data.append(cocktail)  # Add the cocktail data to the found_cocktails_data list
-
+    # Find cocktails containing at least one of the specified ingredients
     found_cocktails = cocktail_gen.find({"ingredients": {"$in": ingredients}})
-
+    # Create a list of dictionaries with the relevant cocktail information
     cocktails = [
         {
             "id": str(cocktail["_id"]),
@@ -146,7 +147,7 @@ def search():
     print(f"Found cocktails: {found_cocktails}")
 
     print(cocktails)
-    
+    # Return the cocktails as a JSON object
     return jsonify(cocktails=cocktails)
 
 
@@ -181,6 +182,7 @@ def contact():
 
 @app.route('/contact', methods=['POST'])
 def handle_contact_form():
+    # Get form data from the request
     name = request.form.get('name')
     email = request.form.get('email')
     subject = request.form.get('subject')
@@ -191,17 +193,23 @@ def handle_contact_form():
     email_subject = f"Contact Form: {subject}"
     
     try:
+        # Set up and connect to the email server using SSL
         server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
         server.ehlo()
         server.login(gmail_user, gmail_password)
+        # Send the email
         server.sendmail(gmail_user, 'daniellemilne7@gmail.com', f'Subject: {email_subject}\n\n{email_body}')
         server.close()
+        # Show a success message to the user
         flash('Your message has been sent successfully!', 'success')
     except Exception as e:
+        # If an error occurs, print the error and show an error message to the user
         print('Something went wrong...', e)
         flash('An error occurred while sending your message. Please try again later.', 'error')
 
+    # Redirect the user back to the contact page
     return redirect('/contact')
+
 
 @app.route('/submitvideo', methods=['GET', 'POST'])
 def submit():
@@ -268,6 +276,10 @@ def dashboard():
 def quiz():
     return render_template('quiz.html')
 
+# Query the database to get the sweet and sour cocktails
+sweet_cocktails = list(cocktail_gen.find({"taste": "sweet"}))
+sour_cocktails = list(cocktail_gen.find({"taste": "sour"}))
+
 @app.route('/result', methods=['POST'])
 def result():
     # Calculate the quiz results here
@@ -283,7 +295,12 @@ def result():
     # Determine the final result
     result = 'sweet' if sweet > sour else 'sour'
 
-    return render_template('result.html', result=result)
+    if result == 'Sweet':
+        recommended_cocktails = sweet_cocktails
+    else:
+        recommended_cocktails = sour_cocktails
+        
+    return render_template('result.html', result=result, recommended_cocktails=recommended_cocktails)
 
 reviews = {}  # Create a dictionary to store reviews by cocktail_id
 
@@ -300,7 +317,7 @@ def fetch_recommended_cocktails(main_ingredient):
 @app.route('/cocktail/<string:cocktail_id>', methods=['GET', 'POST'])
 def cocktail(cocktail_id):
     
-    # Handle form submission
+    # Handle form submission for reviews
     if request.method == 'POST':
         name = request.form.get('name')
         review_text = request.form.get('review')
@@ -321,7 +338,6 @@ def cocktail(cocktail_id):
     cocktail_id_cleaned = re.sub(r"[^0-9a-fA-F]", "", cocktail_id)
     cocktail_data = cocktail_gen.find_one({"_id": ObjectId(cocktail_id_cleaned)})
 
-
     if cocktail_data:
         # Fetch the reviews for the current cocktail
         cocktail_reviews = list(reviews_collection.find({'cocktail_id': cocktail_id}))
@@ -340,8 +356,6 @@ def cocktail(cocktail_id):
     logging.error("No data found for the requested cocktail")
     return "Cocktail not found", 404
 
-
-
 @app.route('/cocktail/<string:cocktail_id>/submit_review', methods=['POST'])
 def submit_review(cocktail_id):
     if request.method == 'POST':
@@ -359,8 +373,6 @@ def submit_review(cocktail_id):
         reviews_collection.insert_one(review)
 
         return redirect(f'/cocktail/{cocktail_id}')
-
-
 
 @app.route('/cocktail/<string:cocktail_id>/edit_review/<string:review_id>', methods=['GET', 'POST'])
 def edit_review(cocktail_id, review_id):
@@ -392,6 +404,7 @@ def delete_review(cocktail_id, review_id):
     reviews_collection.delete_one({'_id': ObjectId(review_id)})
     
     return redirect(f'/cocktail/{cocktail_id}')
+
 
 
 
@@ -446,9 +459,7 @@ def wall():
 @app.route('/save-cocktail', methods=['POST'])
 def save_cocktail():
     cocktail_id = request.form.get('cocktail_id')
-
     print(f"Received cocktail_id: {cocktail_id}")
-
     cocktail = get_cocktail_by_id(cocktail_id)
 
     if cocktail:
@@ -473,8 +484,6 @@ def save_cocktail():
     else:
         print(f"No cocktail found with ID: {cocktail_id}")
         return jsonify({"error": "Cocktail not found"}), 404
-
-
 
 def get_saved_cocktails():
     return list(saved_cocktails.find())
@@ -612,12 +621,14 @@ def share_cocktail(cocktail_id):
 
 @app.route('/searchgen')
 def searchgen():
+    # Get the search query from the request
     query = request.args.get('query', '')
 
-    # Search for cocktails in your MongoDB database
+    # Search for cocktails in the MongoDB database based on the name with case-insensitive regex
     found_cocktails = cocktail_gen.find({"name": {"$regex": query, "$options": "i"}})
 
     cocktails = []
+    # Loop through the found cocktails and create a list of dictionaries with the relevant cocktail information
     for cocktail_data in found_cocktails:
         cocktails.append({
             "id": str(cocktail_data["_id"]),
@@ -628,7 +639,7 @@ def searchgen():
             "ingredient_quantities": cocktail_data.get("ingredient_quantities", []),
             # Add more fields as needed
         })
-
+     # Render the search results template with the found cocktails or None if no cocktails were found
     return render_template('searchgen_results.html', cocktails=cocktails if cocktails else None)
 
 @app.route('/mocktails')

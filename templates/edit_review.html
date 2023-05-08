@@ -2,9 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <title>Edit Review</title>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="navbar_container">
+            <a href="/" id="navbar_logo">Mixology 101
+            <i class="fas fa-glass-cheers"></i> </a>
+           
+            <div id="user-profile" class="user-profile" data-profile-url="{{ url_for('profile') }}">
+
+                <img src="{{ url_for('static', filename='img/cocktails.jpg') }}" alt="Profile picture" id="profile-picture" class="profile-picture" />
+                <span id="user-name" class="user-name">John Doe</span>
+            </div>
+            
+            <div class="navbar_toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <ul class="navbar_menu">
+                <li class="navbar_item">
+                    <a href="/" class="navbar_links"> Home </a>
+                </li>
+                <li class="navbar_item">
+                    <a href="/top10" class="navbar_links">Top 10 Popular Cocktails</a>
+                </li>                
+                <li class="navbar_item">
+                    <a href="/Learn" class="navbar_links" > Learn More About Our Cocktails </a>
+                </li>
+                <li class="navbar_item">
+                    <a href="/saved-drinks" class="navbar_links"> Saved Cocktails </a>
+                </li>
+                <li><a href="{{ url_for('login') }}" class="navbar_links">Log In</a></li>
+                <li><a href="{{ url_for('logout') }}" class="navbar_links">Log Out</a></li>
+                <li class="navbar_item">
+                    <a href="/wall" class="navbar_links"> Community Wall </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <h1>Edit Review</h1>
     <form action="/cocktail/{{ cocktail_id }}/edit_review/{{ review._id }}" method="post">
         <label for="name">Name:</label>

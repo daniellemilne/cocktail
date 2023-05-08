@@ -1,5 +1,3 @@
-@import url('secondpage.css');
-
 
 * {
     box-sizing: border-box;
@@ -67,7 +65,7 @@
 
 }
 
-.navbar_links {
+.navbar_links, .navbar_item a {
     color: #fff;
     display: flex;
     align-items: center;
@@ -720,7 +718,8 @@
   }
   
   #search-results img {
-    height: 100%;
+    width: 100%;
+    height: 200px;
     object-fit: cover;
     object-position: center;
   }

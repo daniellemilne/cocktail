@@ -33,21 +33,21 @@
             </div>
             <ul class="navbar_menu">
                 <li class="navbar_item">
-                    <a href="/"> Home </a>
+                    <a href="/" class="navbar_links"> Home </a>
                 </li>
                 <li class="navbar_item">
-                    <a href="/top10">Top 10 Popular Cocktails</a>
+                    <a href="/top10" class="navbar_links">Top 10 Popular Cocktails</a>
                 </li>                
                 <li class="navbar_item">
-                    <a href="/Learn" > Learn More About Our Cocktails </a>
+                    <a href="/Learn" class="navbar_links" > Learn More About Our Cocktails </a>
                 </li>
                 <li class="navbar_item">
-                    <a href="/saved-drinks" > Saved Cocktails </a>
+                    <a href="/saved-drinks" class="navbar_links"> Saved Cocktails </a>
                 </li>
-                <li><a href="{{ url_for('login') }}">Log In</a></li>
-                <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+                <li><a href="{{ url_for('login') }}" class="navbar_links">Log In</a></li>
+                <li><a href="{{ url_for('logout') }}" class="navbar_links">Log Out</a></li>
                 <li class="navbar_item">
-                    <a href="/wall"> Your Wall </a>
+                    <a href="/wall" class="navbar_links"> Community Wall </a>
                 </li>
             </ul>
         </div>
@@ -112,15 +112,21 @@
     </div>
     
     <div id="search-results">
+        {# Loop through the cocktails list passed to the template #}
         {% for cocktail in cocktails %}
+        {# Display the raw JSON data of the cocktail object for debugging purposes #}
         <pre>{{ cocktail | tojson | safe }}</pre>
             <div class="cocktail" data-id="{{ cocktail._id }}">
+                {# Create a link to the cocktail details page with the specific cocktail ID #}
                 <a href="{{ url_for('cocktail', cocktail_id=cocktail._id) }}">
-    
+                    {# Display the cocktail name as a heading #}
                     <h3>{{ cocktail.name }}</h3>
+                    {# Display the cocktail image, using the "static" folder and the "img" subfolder #}
                     <img src="{{ url_for('static', filename='img/' + cocktail.image) }}" alt="{{ cocktail.name }}" class="cocktail-result-image">
                 </a>
-                <p>{{ cocktail.description }}</p>
+                {# Display the cocktail description as a paragraph #}
+                <p>{{ cocktail.description }}</p><br><br><br>
+                {# Display the list of ingredients #}
                 <ul>
                     {% for ingredient in cocktail.ingredients %}
                     <li>{{ ingredient }}</li>
@@ -129,6 +135,7 @@
             </div>
         {% endfor %}
     </div>
+    
     
     
 
@@ -194,7 +201,7 @@
                 <div class="footer_link-items">
                     <h2>Social Media</h2>
                     <a href="/">Instagram</a>
-                    <a href="/">Youtube</a>
+                    <a href="https://www.youtube.com/channel/UCvOEyTOEtkUQSz5w2BGghkQ" target="_blank">Youtube</a>
                     <a href="/">Facebook</a>
                     <a href="/">Twitter</a>
                 </div>
@@ -213,17 +220,11 @@
                 target="_blank"> 
                 <i class="fab fa-instagram"></i>
                 </a>
-                <a href="/" class="social_icons-link"
-                target="_blank"> 
+                <a href="https://www.youtube.com/channel/UCvOEyTOEtkUQSz5w2BGghkQ"
+                class="social_icons-link" target="_blank">
                 <i class="fab fa-youtube"></i>
                 </a>
-                <a href="/" class="social_icons-link"
-                target="_blank"> 
-                <i class="fab fa-facebook"></i>
-                </a>
-                <a href="/" class="social_icons-link"
-                target="_blank"> 
-                <i class="fab fa-twitter"></i>
+               
                 </a>
                 </div>
             </div>

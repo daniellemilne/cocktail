@@ -578,6 +578,7 @@ form {
 
 .question {
     margin-bottom: 20px;
+    align-items: center;
 }
 
 label {

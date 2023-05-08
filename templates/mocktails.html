@@ -24,21 +24,21 @@
             </div>
             <ul class="navbar_menu">
                 <li class="navbar_item">
-                    <a href="/"> Home </a>
+                    <a href="/" class="navbar_links"> Home </a>
                 </li>
                 <li class="navbar_item">
-                    <a href="/top10">Top 10 Popular Cocktails</a>
+                    <a href="/top10" class="navbar_links">Top 10 Popular Cocktails</a>
                 </li>                
                 <li class="navbar_item">
-                    <a href="/Learn" > Learn More About Our Cocktails </a>
+                    <a href="/Learn" class="navbar_links" > Learn More About Our Cocktails </a>
                 </li>
                 <li class="navbar_item">
-                    <a href="/saved-drinks" > Saved Cocktails </a>
+                    <a href="/saved-drinks" class="navbar_links"> Saved Cocktails </a>
                 </li>
-                <li><a href="{{ url_for('login') }}">Log In</a></li>
-                <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+                <li><a href="{{ url_for('login') }}" class="navbar_links">Log In</a></li>
+                <li><a href="{{ url_for('logout') }}" class="navbar_links">Log Out</a></li>
                 <li class="navbar_item">
-                    <a href="/wall"> Your Wall </a>
+                    <a href="/wall" class="navbar_links"> Community Wall </a>
                 </li>
             </ul>
         </div>
